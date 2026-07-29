@@ -1,4 +1,4 @@
-import CloseIcon from '@mui/icons-material/Close'
+import { Close as CloseIcon } from '@mui/icons-material'
 import Box from '@mui/material/Box'
 import Divider from '@mui/material/Divider'
 import Drawer from '@mui/material/Drawer'

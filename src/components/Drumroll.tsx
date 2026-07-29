@@ -1,5 +1,4 @@
-import PlayArrowIcon from '@mui/icons-material/PlayArrow'
-import StopIcon from '@mui/icons-material/Stop'
+import { PlayArrow as PlayArrowIcon, Stop as StopIcon } from '@mui/icons-material'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'

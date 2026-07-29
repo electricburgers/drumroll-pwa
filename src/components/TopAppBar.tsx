@@ -1,8 +1,10 @@
-import DarkModeIcon from '@mui/icons-material/DarkMode'
-import GitHubIcon from '@mui/icons-material/GitHub'
-import LightModeIcon from '@mui/icons-material/LightMode'
-import SettingsBrightnessIcon from '@mui/icons-material/SettingsBrightness'
-import SettingsIcon from '@mui/icons-material/Settings'
+import {
+  DarkMode as DarkModeIcon,
+  GitHub as GitHubIcon,
+  LightMode as LightModeIcon,
+  Settings as SettingsIcon,
+  SettingsBrightness as SettingsBrightnessIcon,
+} from '@mui/icons-material'
 import AppBar from '@mui/material/AppBar'
 import Grid from '@mui/material/Grid'
 import IconButton from '@mui/material/IconButton'
