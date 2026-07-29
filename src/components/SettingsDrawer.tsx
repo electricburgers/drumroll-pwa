@@ -3,11 +3,22 @@ import Box from '@mui/material/Box'
 import Divider from '@mui/material/Divider'
 import Drawer from '@mui/material/Drawer'
 import IconButton from '@mui/material/IconButton'
+import Slider from '@mui/material/Slider'
 import Stack from '@mui/material/Stack'
+import TextField from '@mui/material/TextField'
 import ToggleButton from '@mui/material/ToggleButton'
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
 import Typography from '@mui/material/Typography'
-import { COLOR_MODE_OPTIONS, COLOR_VISION_OPTIONS, DURATION_OPTIONS } from '../constants'
+import {
+  APP_VERSION,
+  COLOR_MODE_OPTIONS,
+  COLOR_VISION_OPTIONS,
+  DURATION_OPTIONS,
+  FADE_OUT_STEP_SECONDS,
+  MAX_FADE_OUT_SECONDS,
+  MIN_FADE_OUT_SECONDS,
+  ORIGINAL_AUTHOR,
+} from '../constants'
 import { useAppContext } from '../context/useAppContext'
 
 export function SettingsDrawer() {
@@ -16,6 +27,10 @@ export function SettingsDrawer() {
     setOpenSettings,
     duration,
     setDuration,
+    fadeOutSeconds,
+    setFadeOutSeconds,
+    entriesText,
+    setEntriesText,
     isRolling,
     defaultGridSpacing,
     colorMode,
@@ -67,6 +82,7 @@ export function SettingsDrawer() {
               if (value !== null) setDuration(value)
             }}
             disabled={isRolling}
+            aria-label="Default drumroll duration"
             sx={{ flexWrap: 'wrap', mt: 1 }}
           >
             {DURATION_OPTIONS.map((option) => (
@@ -75,6 +91,29 @@ export function SettingsDrawer() {
               </ToggleButton>
             ))}
           </ToggleButtonGroup>
+        </Stack>
+
+        <Stack spacing={1} sx={{ mt: defaultGridSpacing }}>
+          <Typography variant="subtitle1">Fade-out duration</Typography>
+          <Typography variant="body2" color="text.secondary">
+            Sets how long the Fade Out stop button takes to fade the drumroll to silence.
+          </Typography>
+
+          <Slider
+            value={fadeOutSeconds}
+            onChange={(_event, value) => {
+              if (typeof value === 'number') setFadeOutSeconds(value)
+            }}
+            min={MIN_FADE_OUT_SECONDS}
+            max={MAX_FADE_OUT_SECONDS}
+            step={FADE_OUT_STEP_SECONDS}
+            valueLabelDisplay="auto"
+            valueLabelFormat={(value) => `${value}s`}
+            getAriaValueText={(value) => `${value} seconds`}
+            disabled={isRolling}
+            aria-label="Fade-out duration"
+            sx={{ mt: 1 }}
+          />
         </Stack>
 
         <Divider sx={{ my: defaultGridSpacing }} />
@@ -94,6 +133,7 @@ export function SettingsDrawer() {
             onChange={(_event, value) => {
               if (value !== null) setColorMode(value)
             }}
+            aria-label="Theme"
             sx={{ flexWrap: 'wrap', mt: 1 }}
           >
             {COLOR_MODE_OPTIONS.map((option) => (
@@ -118,6 +158,7 @@ export function SettingsDrawer() {
               if (value !== null) setColorVision(value)
             }}
             orientation="vertical"
+            aria-label="Color vision"
             sx={{ mt: 1, alignSelf: 'stretch' }}
           >
             {COLOR_VISION_OPTIONS.map((option) => (
@@ -126,6 +167,39 @@ export function SettingsDrawer() {
               </ToggleButton>
             ))}
           </ToggleButtonGroup>
+        </Stack>
+
+        <Divider sx={{ my: defaultGridSpacing }} />
+        <Typography variant="h5" gutterBottom>
+          Advanced
+        </Typography>
+
+        <Stack spacing={1} sx={{ mt: defaultGridSpacing }}>
+          <Typography variant="subtitle1">Random pick list</Typography>
+          <Typography variant="body2" color="text.secondary">
+            Enter a list of entries, separated by commas or one per line. When you press Stop,
+            one entry is randomly picked and announced alongside the drumroll reveal.
+          </Typography>
+
+          <TextField
+            multiline
+            minRows={4}
+            fullWidth
+            value={entriesText}
+            onChange={(event) => setEntriesText(event.target.value)}
+            placeholder={'Alice, Bob, Charlie\nor one per line'}
+            aria-label="Random pick list entries"
+          />
+        </Stack>
+
+        <Divider sx={{ my: defaultGridSpacing }} />
+        <Stack spacing={0.5}>
+          <Typography variant="body2" color="text.secondary">
+            drumroll v{APP_VERSION}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Originally created by {ORIGINAL_AUTHOR}
+          </Typography>
         </Stack>
       </Box>
     </Drawer>

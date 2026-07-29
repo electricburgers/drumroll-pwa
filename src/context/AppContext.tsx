@@ -3,9 +3,14 @@ import { useState, type ReactNode } from 'react'
 import {
   COLOR_MODE_STORAGE_KEY,
   COLOR_VISION_STORAGE_KEY,
+  DEFAULT_FADE_OUT_SECONDS,
   DEFAULT_GRID_SPACING,
   DURATION_STORAGE_KEY,
+  ENTRIES_STORAGE_KEY,
+  FADE_OUT_STORAGE_KEY,
   INFINITE_DURATION,
+  MAX_FADE_OUT_SECONDS,
+  MIN_FADE_OUT_SECONDS,
   type ColorModeSetting,
   type ColorVision,
 } from '../constants'
@@ -24,8 +29,24 @@ function readStoredDuration(): number {
   return Number.isNaN(parsed) ? INFINITE_DURATION : parsed
 }
 
+function readStoredFadeOutSeconds(): number {
+  if (typeof window === 'undefined') return DEFAULT_FADE_OUT_SECONDS
+  const stored = window.localStorage.getItem(FADE_OUT_STORAGE_KEY)
+  if (stored === null) return DEFAULT_FADE_OUT_SECONDS
+  const parsed = Number(stored)
+  if (Number.isNaN(parsed)) return DEFAULT_FADE_OUT_SECONDS
+  return Math.min(MAX_FADE_OUT_SECONDS, Math.max(MIN_FADE_OUT_SECONDS, parsed))
+}
+
+function readStoredEntriesText(): string {
+  if (typeof window === 'undefined') return ''
+  return window.localStorage.getItem(ENTRIES_STORAGE_KEY) ?? ''
+}
+
 export function AppProvider({ children }: { children: ReactNode }) {
   const [duration, setDurationState] = useState<number>(readStoredDuration)
+  const [fadeOutSeconds, setFadeOutSecondsState] = useState<number>(readStoredFadeOutSeconds)
+  const [entriesText, setEntriesTextState] = useState<string>(readStoredEntriesText)
   const [openSettings, setOpenSettings] = useState(false)
   const [isRolling, setIsRolling] = useState(false)
   const [colorMode, setColorModeState] = useState<ColorModeSetting>(readStoredColorMode)
@@ -38,6 +59,22 @@ export function AppProvider({ children }: { children: ReactNode }) {
     setDurationState((prev) => {
       const next = typeof value === 'function' ? (value as (prev: number) => number)(prev) : value
       window.localStorage.setItem(DURATION_STORAGE_KEY, String(next))
+      return next
+    })
+  }
+
+  const setFadeOutSeconds: AppContextValue['setFadeOutSeconds'] = (value) => {
+    setFadeOutSecondsState((prev) => {
+      const next = typeof value === 'function' ? (value as (prev: number) => number)(prev) : value
+      window.localStorage.setItem(FADE_OUT_STORAGE_KEY, String(next))
+      return next
+    })
+  }
+
+  const setEntriesText: AppContextValue['setEntriesText'] = (value) => {
+    setEntriesTextState((prev) => {
+      const next = typeof value === 'function' ? (value as (prev: string) => string)(prev) : value
+      window.localStorage.setItem(ENTRIES_STORAGE_KEY, next)
       return next
     })
   }
@@ -63,6 +100,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
       value={{
         duration,
         setDuration,
+        fadeOutSeconds,
+        setFadeOutSeconds,
+        entriesText,
+        setEntriesText,
         openSettings,
         setOpenSettings,
         isRolling,

@@ -1,3 +1,9 @@
+import { version as packageVersion } from '../package.json'
+
+export const APP_VERSION = packageVersion
+
+export const ORIGINAL_AUTHOR = 'heystevegray'
+
 export const INFINITE_DURATION = -1
 
 export const DURATION_STORAGE_KEY = 'drumroll-duration'
@@ -10,6 +16,13 @@ export const DURATION_OPTIONS = [
   { label: '10 seconds', value: 10 },
   { label: 'Infinite', value: INFINITE_DURATION },
 ] as const
+
+export const FADE_OUT_STORAGE_KEY = 'drumroll-fade-out-seconds'
+
+export const DEFAULT_FADE_OUT_SECONDS = 2.5
+export const MIN_FADE_OUT_SECONDS = 0.5
+export const MAX_FADE_OUT_SECONDS = 5
+export const FADE_OUT_STEP_SECONDS = 0.5
 
 export type ColorModeSetting = 'light' | 'dark' | 'system'
 export type ResolvedColorMode = 'light' | 'dark'
@@ -29,3 +42,5 @@ export const COLOR_VISION_OPTIONS: { label: string; value: ColorVision }[] = [
   { label: 'Protanopia / Deuteranopia friendly', value: 'redGreen' },
   { label: 'Tritanopia friendly', value: 'blueYellow' },
 ]
+
+export const ENTRIES_STORAGE_KEY = 'drumroll-entries'

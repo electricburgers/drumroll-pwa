@@ -1,6 +1,5 @@
 import {
   DarkMode as DarkModeIcon,
-  GitHub as GitHubIcon,
   LightMode as LightModeIcon,
   Settings as SettingsIcon,
   SettingsBrightness as SettingsBrightnessIcon,
@@ -13,8 +12,6 @@ import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 import type { ColorModeSetting } from '../constants'
 import { useAppContext } from '../context/useAppContext'
-
-const SOURCE_REPO_URL = 'https://github.com/heystevegray/drumroll-pwa'
 
 const NEXT_COLOR_MODE: Record<ColorModeSetting, ColorModeSetting> = {
   system: 'light',
@@ -54,20 +51,6 @@ export function TopAppBar() {
                 aria-label="Toggle color theme"
               >
                 {COLOR_MODE_ICON[colorMode]}
-              </IconButton>
-            </Tooltip>
-          </Grid>
-          <Grid item>
-            <Tooltip title="Source Code">
-              <IconButton
-                color="inherit"
-                component="a"
-                href={SOURCE_REPO_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Source Code"
-              >
-                <GitHubIcon />
               </IconButton>
             </Tooltip>
           </Grid>

@@ -4,6 +4,10 @@ import type { ColorModeSetting, ColorVision, ResolvedColorMode } from '../consta
 export interface AppContextValue {
   duration: number
   setDuration: React.Dispatch<React.SetStateAction<number>>
+  fadeOutSeconds: number
+  setFadeOutSeconds: React.Dispatch<React.SetStateAction<number>>
+  entriesText: string
+  setEntriesText: React.Dispatch<React.SetStateAction<string>>
   openSettings: boolean
   setOpenSettings: React.Dispatch<React.SetStateAction<boolean>>
   isRolling: boolean

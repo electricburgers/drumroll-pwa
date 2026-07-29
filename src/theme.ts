@@ -70,11 +70,24 @@ export function getTheme(mode: ResolvedColorMode, colorVision: ColorVision): The
       MuiButton: {
         styleOverrides: {
           root: { minHeight: MIN_TOUCH_TARGET },
+          // Outlined/text buttons render the accent color directly as
+          // freestanding text, which only clears the 3:1 non-text threshold
+          // (verified above), not the 4.5:1 text threshold. Force these to
+          // the already-verified text.primary color instead.
+          outlined: ({ theme }) => ({
+            color: theme.palette.text.primary,
+            borderColor: theme.palette.text.primary,
+          }),
+          text: ({ theme }) => ({ color: theme.palette.text.primary }),
         },
       },
       MuiToggleButton: {
         styleOverrides: {
-          root: { minHeight: MIN_TOUCH_TARGET },
+          root: ({ theme }) => ({
+            minHeight: MIN_TOUCH_TARGET,
+            // Same freestanding-text issue as outlined/text buttons above.
+            '&.Mui-selected': { color: theme.palette.text.primary },
+          }),
         },
       },
     },
