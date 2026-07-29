@@ -108,6 +108,10 @@ export function useDrumroll() {
     const start = startSoundRef.current
     const loop = loopSoundRef.current
 
+    // Prevent the start sound's natural completion from triggering loop.play()
+    // (registered in play()) after we've already started fading out.
+    start?.off('end')
+
     if (start?.playing()) start.fade(start.volume(), 0, fadeMs)
     if (loop?.playing()) loop.fade(loop.volume(), 0, fadeMs)
 

@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 This is a rebuild of the original drumroll app by **heystevegray** as a
 client-only static PWA (Vite + React + TypeScript + MUI + howler).
 
+## [0.6.0] - 2026-07-29
+
+### Fixed
+
+- Fade Out no longer gets undone if it's triggered while the drumroll intro
+  sound is still playing: the intro's completion handler (which starts the
+  looping drumroll sound) was still firing after a fade-out had begun,
+  snapping the volume back up instead of finishing the fade to silence.
+
 ## [0.5.0] - 2026-07-29
 
 ### Added
