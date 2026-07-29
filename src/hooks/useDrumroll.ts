@@ -118,7 +118,9 @@ export function useDrumroll() {
     setIsRolling(false)
     setFlip(false)
     setTimer(0)
-    setPickedEntry(null)
+
+    const entries = parseEntries(entriesText)
+    setPickedEntry(entries.length > 0 ? entries[Math.floor(Math.random() * entries.length)] : null)
 
     if (fadeOutTimeoutRef.current) clearTimeout(fadeOutTimeoutRef.current)
     fadeOutTimeoutRef.current = setTimeout(() => {
@@ -132,7 +134,7 @@ export function useDrumroll() {
     resetTimeoutRef.current = setTimeout(() => {
       setTimer(duration === INFINITE_DURATION ? 0 : duration)
     }, fadeMs + RESET_DELAY_MS)
-  }, [duration, fadeOutSeconds, setIsRolling])
+  }, [duration, entriesText, fadeOutSeconds, setIsRolling])
 
   const play = useCallback(() => {
     clearAllTimers()
@@ -181,7 +183,9 @@ export function useDrumroll() {
       : 'Celebrating!'
     : isRolling
       ? 'Drumroll rolling'
-      : 'Drumroll stopped'
+      : pickedEntry
+        ? `Drumroll stopped. Picked: ${pickedEntry}`
+        : 'Drumroll stopped'
 
   return {
     play,

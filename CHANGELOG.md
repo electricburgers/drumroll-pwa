@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 This is a rebuild of the original drumroll app by **heystevegray** as a
 client-only static PWA (Vite + React + TypeScript + MUI + howler).
 
+## [0.7.0] - 2026-07-29
+
+### Added
+
+- Fade Out now also picks and announces a random entry from the pick list,
+  matching the reveal behavior of the regular Stop button, instead of
+  silently clearing any previous pick.
+
 ## [0.6.0] - 2026-07-29
 
 ### Fixed
