@@ -132,3 +132,4 @@ built alongside `index.html` rather than relying on a JS redirect trick.
   worker
 - `@vite-pwa/assets-generator` for generating the full icon + Apple splash
   screen set from `public/logo.svg`
+
