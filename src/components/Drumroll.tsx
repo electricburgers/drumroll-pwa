@@ -10,14 +10,33 @@ import Button from '@mui/material/Button'
 import LinearProgress from '@mui/material/LinearProgress'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
+import { useMemo } from 'react'
 import { useAppContext } from '../context/useAppContext'
 import { INFINITE_DURATION } from '../constants'
 import { useDrumroll } from '../hooks/useDrumroll'
+import { parseEntries } from '../lib/parseEntries'
+import { SpinWheel } from './SpinWheel'
 
 export function Drumroll() {
-  const { duration, setOpenSettings, defaultGridSpacing } = useAppContext()
-  const { play, stop, stopFadeOut, playHorn, timer, emoji, flip, isRolling, pickedEntry, statusMessage } =
-    useDrumroll()
+  const { duration, entriesText, spinWheelEnabled, setOpenSettings, defaultGridSpacing } = useAppContext()
+  const {
+    play,
+    stop,
+    stopFadeOut,
+    playHorn,
+    timer,
+    emoji,
+    flip,
+    isRolling,
+    pickedEntry,
+    celebrationMessage,
+    statusMessage,
+  } = useDrumroll()
+
+  // The pick list's first two entries are reserved for the craft partner
+  // name and location; the rest are the pool of names to draw from.
+  const pool = useMemo(() => parseEntries(entriesText).slice(2), [entriesText])
+  const showSpinWheel = spinWheelEnabled && pool.length > 0
 
   const helperText =
     duration === INFINITE_DURATION
@@ -44,34 +63,39 @@ export function Drumroll() {
           {statusMessage}
         </Box>
 
-        <Typography
-          component="div"
-          aria-hidden="true"
-          sx={{
-            fontSize: 'clamp(3.5rem, 18vw, 5rem)',
-            lineHeight: 1,
-            transform: `scale(${isRolling && flip ? -1 : 1}, 1)`,
-            transition: 'transform 0.15s ease-in-out',
-          }}
-        >
-          {emoji}
-        </Typography>
+        {showSpinWheel ? (
+          <SpinWheel entries={pool} isRolling={isRolling} pickedEntry={pickedEntry} />
+        ) : (
+          <>
+            <Typography
+              component="div"
+              aria-hidden="true"
+              sx={{
+                fontSize: 'clamp(3.5rem, 18vw, 5rem)',
+                lineHeight: 1,
+                transform: `scale(${isRolling && flip ? -1 : 1}, 1)`,
+              }}
+            >
+              {emoji}
+            </Typography>
 
-        <Typography
-          component="div"
-          aria-label="Drum"
-          sx={{ fontSize: '5rem', lineHeight: 1 }}
-        >
-          🥁
-        </Typography>
+            <Typography
+              component="div"
+              aria-label="Drum"
+              sx={{ fontSize: '5rem', lineHeight: 1 }}
+            >
+              🥁
+            </Typography>
+          </>
+        )}
 
         <Typography variant="body1" color="text.secondary">
           {helperText}
         </Typography>
 
-        {pickedEntry && (
-          <Typography variant="h4" component="div" aria-hidden="true">
-            🎉 {pickedEntry} 🎉
+        {celebrationMessage && (
+          <Typography variant="h5" component="div" aria-hidden="true">
+            {celebrationMessage}
           </Typography>
         )}
 

@@ -86,8 +86,8 @@ export function useDrumroll() {
     setTimer(0)
     setCelebrating(true)
 
-    const entries = parseEntries(entriesText)
-    setPickedEntry(entries.length > 0 ? entries[Math.floor(Math.random() * entries.length)] : null)
+    const pool = parseEntries(entriesText).slice(2)
+    setPickedEntry(pool.length > 0 ? pool[Math.floor(Math.random() * pool.length)] : null)
 
     if (celebrationTimeoutRef.current) clearTimeout(celebrationTimeoutRef.current)
     celebrationTimeoutRef.current = setTimeout(() => setCelebrating(false), CELEBRATION_MS)
@@ -119,8 +119,8 @@ export function useDrumroll() {
     setFlip(false)
     setTimer(0)
 
-    const entries = parseEntries(entriesText)
-    setPickedEntry(entries.length > 0 ? entries[Math.floor(Math.random() * entries.length)] : null)
+    const pool = parseEntries(entriesText).slice(2)
+    setPickedEntry(pool.length > 0 ? pool[Math.floor(Math.random() * pool.length)] : null)
 
     if (fadeOutTimeoutRef.current) clearTimeout(fadeOutTimeoutRef.current)
     fadeOutTimeoutRef.current = setTimeout(() => {
@@ -177,15 +177,17 @@ export function useDrumroll() {
 
   const emoji = celebrating ? '🎉' : isRolling ? '👀' : '⏸️'
 
+  const [craftPartnerName, craftPartnerLocation] = parseEntries(entriesText)
+  const celebrationMessage =
+    pickedEntry && craftPartnerName && craftPartnerLocation
+      ? `Congratulations to ${pickedEntry}! You've won a craft beer gift card to ${craftPartnerName} in ${craftPartnerLocation}. Cheers!`
+      : null
+
   const statusMessage = celebrating
-    ? pickedEntry
-      ? `Celebrating! Picked: ${pickedEntry}`
-      : 'Celebrating!'
+    ? (celebrationMessage ?? 'Celebrating!')
     : isRolling
       ? 'Drumroll rolling'
-      : pickedEntry
-        ? `Drumroll stopped. Picked: ${pickedEntry}`
-        : 'Drumroll stopped'
+      : (celebrationMessage ?? 'Drumroll stopped')
 
   return {
     play,
@@ -197,6 +199,7 @@ export function useDrumroll() {
     flip,
     isRolling,
     pickedEntry,
+    celebrationMessage,
     statusMessage,
   }
 }

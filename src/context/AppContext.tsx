@@ -11,6 +11,7 @@ import {
   INFINITE_DURATION,
   MAX_FADE_OUT_SECONDS,
   MIN_FADE_OUT_SECONDS,
+  SPIN_WHEEL_STORAGE_KEY,
   type ColorModeSetting,
   type ColorVision,
 } from '../constants'
@@ -43,10 +44,16 @@ function readStoredEntriesText(): string {
   return window.localStorage.getItem(ENTRIES_STORAGE_KEY) ?? ''
 }
 
+function readStoredSpinWheelEnabled(): boolean {
+  if (typeof window === 'undefined') return false
+  return window.localStorage.getItem(SPIN_WHEEL_STORAGE_KEY) === 'true'
+}
+
 export function AppProvider({ children }: { children: ReactNode }) {
   const [duration, setDurationState] = useState<number>(readStoredDuration)
   const [fadeOutSeconds, setFadeOutSecondsState] = useState<number>(readStoredFadeOutSeconds)
   const [entriesText, setEntriesTextState] = useState<string>(readStoredEntriesText)
+  const [spinWheelEnabled, setSpinWheelEnabledState] = useState<boolean>(readStoredSpinWheelEnabled)
   const [openSettings, setOpenSettings] = useState(false)
   const [isRolling, setIsRolling] = useState(false)
   const [colorMode, setColorModeState] = useState<ColorModeSetting>(readStoredColorMode)
@@ -79,6 +86,14 @@ export function AppProvider({ children }: { children: ReactNode }) {
     })
   }
 
+  const setSpinWheelEnabled: AppContextValue['setSpinWheelEnabled'] = (value) => {
+    setSpinWheelEnabledState((prev) => {
+      const next = typeof value === 'function' ? (value as (prev: boolean) => boolean)(prev) : value
+      window.localStorage.setItem(SPIN_WHEEL_STORAGE_KEY, String(next))
+      return next
+    })
+  }
+
   const setColorMode: AppContextValue['setColorMode'] = (value) => {
     setColorModeState((prev) => {
       const next = typeof value === 'function' ? (value as (prev: ColorModeSetting) => ColorModeSetting)(prev) : value
@@ -104,6 +119,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
         setFadeOutSeconds,
         entriesText,
         setEntriesText,
+        spinWheelEnabled,
+        setSpinWheelEnabled,
         openSettings,
         setOpenSettings,
         isRolling,

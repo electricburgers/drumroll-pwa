@@ -8,6 +8,8 @@ export interface AppContextValue {
   setFadeOutSeconds: React.Dispatch<React.SetStateAction<number>>
   entriesText: string
   setEntriesText: React.Dispatch<React.SetStateAction<string>>
+  spinWheelEnabled: boolean
+  setSpinWheelEnabled: React.Dispatch<React.SetStateAction<boolean>>
   openSettings: boolean
   setOpenSettings: React.Dispatch<React.SetStateAction<boolean>>
   isRolling: boolean

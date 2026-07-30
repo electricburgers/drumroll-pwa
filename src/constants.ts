@@ -44,3 +44,5 @@ export const COLOR_VISION_OPTIONS: { label: string; value: ColorVision }[] = [
 ]
 
 export const ENTRIES_STORAGE_KEY = 'drumroll-entries'
+
+export const SPIN_WHEEL_STORAGE_KEY = 'drumroll-spin-wheel-enabled'
