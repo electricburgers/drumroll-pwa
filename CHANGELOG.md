@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 This is a rebuild of the original drumroll app by **heystevegray** as a
 client-only static PWA (Vite + React + TypeScript + MUI + howler).
 
+## [1.5.0] - 2026-08-24
+
+### Fixed
+
+- Countdown progress bar no longer stops one tick short of empty — it now
+  reaches the far left edge before the drumroll ends.
+
 ## [1.4.0] - 2026-08-24
 
 ### Added

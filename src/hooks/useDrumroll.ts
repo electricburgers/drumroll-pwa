@@ -157,7 +157,7 @@ export function useDrumroll() {
     if (duration !== INFINITE_DURATION) {
       countdownRef.current = setInterval(() => {
         setTimer((prev) => {
-          if (prev <= 1) {
+          if (prev <= 0) {
             if (countdownRef.current) clearInterval(countdownRef.current)
             countdownRef.current = null
             stop()
