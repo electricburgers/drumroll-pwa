@@ -10,7 +10,7 @@ interface AccentPalette {
 // 4.5:1 for button label text, 3:1 for the button surface against the page background.
 // Primary/secondary sometimes need a mode-specific shade because the same hex can pass
 // against one background (light or dark) but not the other at the 3:1 threshold.
-const ACCENTS: Record<ColorVision, Record<ResolvedColorMode, AccentPalette>> = {
+export const ACCENTS: Record<ColorVision, Record<ResolvedColorMode, AccentPalette>> = {
   default: {
     light: {
       primary: { main: '#A1000A', contrastText: '#FFFFFF' },

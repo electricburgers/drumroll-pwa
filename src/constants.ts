@@ -10,12 +10,13 @@ export const DURATION_STORAGE_KEY = 'drumroll-duration'
 
 export const DEFAULT_GRID_SPACING = 2
 
-export const DURATION_OPTIONS = [
-  { label: '3 seconds', value: 3 },
-  { label: '5 seconds', value: 5 },
-  { label: '10 seconds', value: 10 },
-  { label: 'Infinite', value: INFINITE_DURATION },
-] as const
+export const DURATION_MARKS: { value: number; label: string }[] = [
+  { value: 0, label: '∞' },
+  { value: 5, label: '5s' },
+  { value: 10, label: '10s' },
+  { value: 20, label: '20s' },
+  { value: 30, label: '30s' },
+]
 
 export const FADE_OUT_STORAGE_KEY = 'drumroll-fade-out-seconds'
 

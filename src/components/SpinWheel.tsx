@@ -2,11 +2,9 @@ import Box from '@mui/material/Box'
 import { useTheme } from '@mui/material/styles'
 import { useEffect, useMemo, useRef, useState } from 'react'
 
-const SPIN_STEP_DEG = 9
-const SPIN_INTERVAL_MS = 40
+const SPIN_SPEED_DEG_PER_SEC = 1440
 const LANDING_SPINS = 4
-const LANDING_TRANSITION = 'transform 1.6s cubic-bezier(0.22, 1, 0.36, 1)'
-const SPINNING_TRANSITION = `transform ${SPIN_INTERVAL_MS}ms linear`
+const LANDING_TRANSITION = 'transform 1.8s cubic-bezier(0.15, 0.85, 0.35, 1)'
 
 // Fixed and never scaled down, so labels stay legible regardless of entry
 // count.
@@ -139,22 +137,25 @@ export function SpinWheel({ entries, isRolling, pickedEntry }: SpinWheelProps) {
   const theme = useTheme()
   const [rotation, setRotation] = useState(0)
   const rotationRef = useRef(0)
-  const spinIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
   useEffect(() => {
-    if (isRolling) {
-      spinIntervalRef.current = setInterval(() => {
-        rotationRef.current += SPIN_STEP_DEG
-        setRotation(rotationRef.current)
-      }, SPIN_INTERVAL_MS)
-    } else if (spinIntervalRef.current) {
-      clearInterval(spinIntervalRef.current)
-      spinIntervalRef.current = null
+    if (!isRolling) return
+
+    let lastTime = performance.now()
+    let frameId: number
+
+    const tick = (now: number) => {
+      const dt = (now - lastTime) / 1000
+      lastTime = now
+      rotationRef.current += SPIN_SPEED_DEG_PER_SEC * dt
+      setRotation(rotationRef.current)
+      frameId = requestAnimationFrame(tick)
     }
 
+    frameId = requestAnimationFrame(tick)
+
     return () => {
-      if (spinIntervalRef.current) clearInterval(spinIntervalRef.current)
-      spinIntervalRef.current = null
+      cancelAnimationFrame(frameId)
     }
   }, [isRolling])
 
@@ -214,7 +215,7 @@ export function SpinWheel({ entries, isRolling, pickedEntry }: SpinWheelProps) {
           width: '100%',
           height: '100%',
           transform: `rotate(${rotation}deg)`,
-          transition: isRolling ? SPINNING_TRANSITION : LANDING_TRANSITION,
+          transition: isRolling ? 'none' : LANDING_TRANSITION,
         }}
       >
         {entries.map((entry, index) => {

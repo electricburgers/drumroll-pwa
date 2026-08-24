@@ -8,17 +8,18 @@ import { visuallyHidden } from '@mui/utils'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import LinearProgress from '@mui/material/LinearProgress'
+import Slider from '@mui/material/Slider'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
-import { useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useAppContext } from '../context/useAppContext'
-import { INFINITE_DURATION } from '../constants'
+import { DURATION_MARKS, INFINITE_DURATION } from '../constants'
 import { useDrumroll } from '../hooks/useDrumroll'
 import { parseEntries } from '../lib/parseEntries'
 import { SpinWheel } from './SpinWheel'
 
 export function Drumroll() {
-  const { duration, entriesText, spinWheelEnabled, setOpenSettings, defaultGridSpacing } = useAppContext()
+  const { duration, setDuration, entriesText, spinWheelEnabled, setOpenSettings, defaultGridSpacing } = useAppContext()
   const {
     play,
     stop,
@@ -38,10 +39,34 @@ export function Drumroll() {
   const pool = useMemo(() => parseEntries(entriesText).slice(2), [entriesText])
   const showSpinWheel = spinWheelEnabled && pool.length > 0
 
-  const helperText =
-    duration === INFINITE_DURATION
-      ? 'Drumroll duration set to Infinite. Configure the settings below or let the good times roll.'
+  const [cyclingName, setCyclingName] = useState(() => (pool.length > 0 ? pool[0] : ''))
+
+  useEffect(() => {
+    if (pool.length === 0) return
+    setCyclingName((prev) => (pool.includes(prev) ? prev : pool[0]))
+
+    const intervalTime = isRolling ? 600 : 1500
+    const timerId = setInterval(() => {
+      setCyclingName((prev) => {
+        if (pool.length <= 1) return pool[0]
+        let next = prev
+        while (next === prev) {
+          next = pool[Math.floor(Math.random() * pool.length)]
+        }
+        return next
+      })
+    }, intervalTime)
+
+    return () => clearInterval(timerId)
+  }, [pool, isRolling])
+
+  const helperText = isRolling
+    ? duration === INFINITE_DURATION
+      ? 'Drumroll rolling continuously'
       : `Rolling for ${timer} seconds`
+    : duration === INFINITE_DURATION
+      ? 'Drumroll duration set to Infinite. Let the good times roll.'
+      : `Ready to roll for ${duration} second${duration === 1 ? '' : 's'}`
 
   return (
     <Box
@@ -86,6 +111,50 @@ export function Drumroll() {
             >
               🥁
             </Typography>
+
+            {pool.length > 0 && (
+              <Box
+                sx={{
+                  width: '100%',
+                  maxWidth: 320,
+                  p: 1.5,
+                  borderRadius: 2,
+                  border: '2px solid',
+                  borderColor: pickedEntry && !isRolling ? 'primary.main' : 'divider',
+                  bgcolor: 'background.paper',
+                  boxShadow: 1,
+                  textAlign: 'center',
+                  transition: 'all 0.3s ease',
+                }}
+              >
+                <Typography
+                  variant="caption"
+                  color="text.secondary"
+                  sx={{
+                    textTransform: 'uppercase',
+                    letterSpacing: 1,
+                    fontWeight: 700,
+                    display: 'block',
+                    mb: 0.5,
+                  }}
+                >
+                  {pickedEntry && !isRolling ? '🏆 Winner' : 'Drawing Pool'}
+                </Typography>
+                <Typography
+                  variant="h6"
+                  component="div"
+                  sx={{
+                    fontWeight: 600,
+                    color: pickedEntry && !isRolling ? 'primary.main' : 'text.primary',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  {pickedEntry && !isRolling ? pickedEntry : cyclingName}
+                </Typography>
+              </Box>
+            )}
           </>
         )}
 
@@ -99,18 +168,47 @@ export function Drumroll() {
           </Typography>
         )}
 
-        {duration !== INFINITE_DURATION && (
-          <LinearProgress
-            variant="determinate"
-            value={(timer / duration) * 100}
-            aria-hidden="true"
-            sx={{
-              width: '100%',
-              height: 8,
-              borderRadius: 4,
-              '& .MuiLinearProgress-bar': { transition: 'transform 1s linear' },
-            }}
-          />
+        {!isRolling ? (
+          <Box sx={{ width: '100%', maxWidth: 360, px: 2, my: 1 }}>
+            <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 0.5 }}>
+              <Typography variant="body2" color="text.secondary">
+                Duration
+              </Typography>
+              <Typography variant="body2" fontWeight="bold">
+                {duration === INFINITE_DURATION ? 'Infinite' : `${duration}s`}
+              </Typography>
+            </Stack>
+            <Slider
+              value={duration === INFINITE_DURATION ? 0 : duration}
+              onChange={(_event, value) => {
+                if (typeof value === 'number') {
+                  setDuration(value === 0 ? INFINITE_DURATION : value)
+                }
+              }}
+              min={0}
+              max={30}
+              step={1}
+              marks={DURATION_MARKS}
+              valueLabelDisplay="auto"
+              valueLabelFormat={(val) => (val === 0 ? 'Infinite' : `${val}s`)}
+              getAriaValueText={(val) => (val === 0 ? 'Infinite duration' : `${val} seconds`)}
+              aria-label="Drumroll duration"
+            />
+          </Box>
+        ) : (
+          duration !== INFINITE_DURATION && (
+            <LinearProgress
+              variant="determinate"
+              value={(timer / duration) * 100}
+              aria-hidden="true"
+              sx={{
+                width: '100%',
+                height: 8,
+                borderRadius: 4,
+                '& .MuiLinearProgress-bar': { transition: 'transform 1s linear' },
+              }}
+            />
+          )
         )}
 
         <Button variant="text" onClick={() => setOpenSettings(true)}>

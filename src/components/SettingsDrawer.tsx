@@ -15,13 +15,15 @@ import {
   APP_VERSION,
   COLOR_MODE_OPTIONS,
   COLOR_VISION_OPTIONS,
-  DURATION_OPTIONS,
+  DURATION_MARKS,
   FADE_OUT_STEP_SECONDS,
+  INFINITE_DURATION,
   MAX_FADE_OUT_SECONDS,
   MIN_FADE_OUT_SECONDS,
   ORIGINAL_AUTHOR,
 } from '../constants'
 import { useAppContext } from '../context/useAppContext'
+import { ACCENTS } from '../theme'
 
 export function SettingsDrawer() {
   const {
@@ -39,6 +41,7 @@ export function SettingsDrawer() {
     defaultGridSpacing,
     colorMode,
     setColorMode,
+    resolvedColorMode,
     colorVision,
     setColorVision,
   } = useAppContext()
@@ -48,7 +51,12 @@ export function SettingsDrawer() {
       anchor="right"
       open={openSettings}
       onClose={() => setOpenSettings(false)}
-      sx={{ '& .MuiDrawer-paper': { width: { xs: '100%', sm: 340 } } }}
+      sx={{
+        '& .MuiDrawer-paper': {
+          width: { xs: '100%', sm: 360 },
+          boxSizing: 'border-box',
+        },
+      }}
     >
       <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
         <Stack
@@ -62,7 +70,10 @@ export function SettingsDrawer() {
             flexShrink: 0,
             bgcolor: 'background.paper',
             px: defaultGridSpacing,
-            py: defaultGridSpacing,
+            pt: 'calc(env(safe-area-inset-top) + 12px)',
+            pb: defaultGridSpacing,
+            pl: `calc(${defaultGridSpacing * 8}px + env(safe-area-inset-left))`,
+            pr: `calc(${defaultGridSpacing * 8}px + env(safe-area-inset-right))`,
             borderBottom: 1,
             borderColor: 'divider',
           }}
@@ -78,6 +89,8 @@ export function SettingsDrawer() {
             overflowY: 'auto',
             flex: 1,
             p: defaultGridSpacing,
+            pl: `calc(${defaultGridSpacing * 8}px + env(safe-area-inset-left))`,
+            pr: `calc(${defaultGridSpacing * 8}px + env(safe-area-inset-right))`,
             pb: `calc(${defaultGridSpacing * 8}px + env(safe-area-inset-bottom))`,
           }}
         >
@@ -95,22 +108,22 @@ export function SettingsDrawer() {
             You can also use the Stop button to stop the drumroll before the duration has expired.
           </Typography>
 
-          <ToggleButtonGroup
-            exclusive
-            value={duration}
+          <Slider
+            value={duration === INFINITE_DURATION ? 0 : duration}
             onChange={(_event, value) => {
-              if (value !== null) setDuration(value)
+              if (typeof value === 'number') setDuration(value === 0 ? INFINITE_DURATION : value)
             }}
+            min={0}
+            max={30}
+            step={1}
+            marks={DURATION_MARKS}
+            valueLabelDisplay="auto"
+            valueLabelFormat={(value) => (value === 0 ? 'Infinite' : `${value}s`)}
+            getAriaValueText={(value) => (value === 0 ? 'Infinite duration' : `${value} seconds`)}
             disabled={isRolling}
             aria-label="Default drumroll duration"
-            sx={{ flexWrap: 'wrap', mt: 1 }}
-          >
-            {DURATION_OPTIONS.map((option) => (
-              <ToggleButton key={option.value} value={option.value}>
-                {option.label}
-              </ToggleButton>
-            ))}
-          </ToggleButtonGroup>
+            sx={{ mt: 1 }}
+          />
         </Stack>
 
         <Stack spacing={1} sx={{ mt: defaultGridSpacing }}>
@@ -224,11 +237,60 @@ export function SettingsDrawer() {
             aria-label="Color vision"
             sx={{ mt: 1, alignSelf: 'stretch' }}
           >
-            {COLOR_VISION_OPTIONS.map((option) => (
-              <ToggleButton key={option.value} value={option.value} sx={{ justifyContent: 'flex-start' }}>
-                {option.label}
-              </ToggleButton>
-            ))}
+            {COLOR_VISION_OPTIONS.map((option) => {
+              const palette = ACCENTS[option.value][resolvedColorMode]
+              return (
+                <ToggleButton
+                  key={option.value}
+                  value={option.value}
+                  sx={{
+                    justifyContent: 'flex-start',
+                    alignItems: 'center',
+                    gap: 1.5,
+                    py: 1,
+                  }}
+                >
+                  <Box
+                    component="span"
+                    sx={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: 0.75,
+                      flexShrink: 0,
+                    }}
+                    aria-hidden="true"
+                  >
+                    <Box
+                      component="span"
+                      sx={{
+                        width: 18,
+                        height: 18,
+                        borderRadius: '50%',
+                        bgcolor: palette.primary.main,
+                        border: '1.5px solid',
+                        borderColor: 'divider',
+                        boxShadow: 1,
+                      }}
+                    />
+                    <Box
+                      component="span"
+                      sx={{
+                        width: 18,
+                        height: 18,
+                        borderRadius: '50%',
+                        bgcolor: palette.secondary.main,
+                        border: '1.5px solid',
+                        borderColor: 'divider',
+                        boxShadow: 1,
+                      }}
+                    />
+                  </Box>
+                  <Typography variant="body2" sx={{ textAlign: 'left' }}>
+                    {option.label}
+                  </Typography>
+                </ToggleButton>
+              )
+            })}
           </ToggleButtonGroup>
         </Stack>
 

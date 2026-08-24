@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 This is a rebuild of the original drumroll app by **heystevegray** as a
 client-only static PWA (Vite + React + TypeScript + MUI + howler).
 
+## [1.4.0] - 2026-08-24
+
+### Added
+
+- Drumroll duration slider directly on the main screen before rolling starts,
+  making it easy to adjust duration without opening settings.
+- Drawing pool box displayed in spin wheel off mode that slowly and randomly
+  cycles through candidate name options when a drawing pool is provided.
+- Visual color swatches next to each color vision option in Settings.
+
+### Fixed
+
+- Settings drawer header now accounts for iOS notch / Dynamic Island safe area
+  insets so the close button is never obstructed or unreachable on iPhone.
+- Spin wheel now spins rapidly and smoothly for the entire drumroll duration and
+  seamlessly decelerates to land on the winner, eliminating the previous delay/speed-up glitch.
+
 ## [1.3.0] - 2026-07-30
 
 ### Changed
