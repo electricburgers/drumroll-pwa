@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 This is a rebuild of the original drumroll app by **heystevegray** as a
 client-only static PWA (Vite + React + TypeScript + MUI + howler).
 
+## [1.6.0] - 2026-08-24
+
+### Changed
+
+- Settings drawer's "Originally created by heystevegray" attribution is now
+  a clickable link to the original repo.
+
 ## [1.5.0] - 2026-08-24
 
 ### Fixed

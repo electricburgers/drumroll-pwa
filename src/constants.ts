@@ -3,6 +3,7 @@ import { version as packageVersion } from '../package.json'
 export const APP_VERSION = packageVersion
 
 export const ORIGINAL_AUTHOR = 'heystevegray'
+export const ORIGINAL_AUTHOR_URL = 'https://github.com/heystevegray/drumroll'
 
 export const INFINITE_DURATION = -1
 

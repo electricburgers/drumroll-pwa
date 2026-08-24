@@ -4,6 +4,7 @@ import Divider from '@mui/material/Divider'
 import Drawer from '@mui/material/Drawer'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import IconButton from '@mui/material/IconButton'
+import Link from '@mui/material/Link'
 import Slider from '@mui/material/Slider'
 import Stack from '@mui/material/Stack'
 import Switch from '@mui/material/Switch'
@@ -21,6 +22,7 @@ import {
   MAX_FADE_OUT_SECONDS,
   MIN_FADE_OUT_SECONDS,
   ORIGINAL_AUTHOR,
+  ORIGINAL_AUTHOR_URL,
 } from '../constants'
 import { useAppContext } from '../context/useAppContext'
 import { ACCENTS } from '../theme'
@@ -300,7 +302,10 @@ export function SettingsDrawer() {
             drumroll v{APP_VERSION}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            Originally created by {ORIGINAL_AUTHOR}
+            Originally created by{' '}
+            <Link href={ORIGINAL_AUTHOR_URL} target="_blank" rel="noopener noreferrer" underline="hover">
+              {ORIGINAL_AUTHOR}
+            </Link>
           </Typography>
         </Stack>
         </Box>
