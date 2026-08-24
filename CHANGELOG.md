@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 This is a rebuild of the original drumroll app by **heystevegray** as a
 client-only static PWA (Vite + React + TypeScript + MUI + howler).
 
+## [1.7.0] - 2026-08-24
+
+### Added
+
+- Release date (24 Aug 2026) now shown next to the version number in Settings.
+
 ## [1.6.0] - 2026-08-24
 
 ### Changed

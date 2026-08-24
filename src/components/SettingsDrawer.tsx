@@ -13,6 +13,7 @@ import ToggleButton from '@mui/material/ToggleButton'
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
 import Typography from '@mui/material/Typography'
 import {
+  APP_DATE,
   APP_VERSION,
   COLOR_MODE_OPTIONS,
   COLOR_VISION_OPTIONS,
@@ -299,12 +300,16 @@ export function SettingsDrawer() {
         <Divider sx={{ my: defaultGridSpacing }} />
         <Stack spacing={0.5}>
           <Typography variant="body2" color="text.secondary">
-            drumroll v{APP_VERSION}
+            drumroll v{APP_VERSION} · {APP_DATE}
           </Typography>
           <Typography variant="body2" color="text.secondary">
             Originally created by{' '}
             <Link href={ORIGINAL_AUTHOR_URL} target="_blank" rel="noopener noreferrer" underline="hover">
               {ORIGINAL_AUTHOR}
+            </Link>
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Built with Anthropic's Claude AI
             </Link>
           </Typography>
         </Stack>
