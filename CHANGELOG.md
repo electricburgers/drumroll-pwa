@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 This is a rebuild of the original drumroll app by **heystevegray** as a
 client-only static PWA (Vite + React + TypeScript + MUI + howler).
 
+## [1.9.0] - 2026-08-25
+
+### Added
+
+- Vitest-based unit testing infrastructure with 50 tests covering
+  `parseEntries`, `themePreferences`, and app constants.
+
 ## [1.8.0] - 2026-08-25
 
 ### Added
