@@ -215,6 +215,10 @@ export function Drumroll() {
           Configure Settings
         </Button>
 
+        <Typography variant="caption" color="text.secondary">
+          Note: Not hearing sound? Make sure your device isn't on Silent Mode.
+        </Typography>
+
         <Stack
           direction="row"
           spacing={defaultGridSpacing}
