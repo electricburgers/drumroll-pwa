@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 This is a rebuild of the original drumroll app by **heystevegray** as a
 client-only static PWA (Vite + React + TypeScript + MUI + howler).
 
+## [1.14.0] - 2026-08-28
+
+### Changed
+
+- Pick list placeholder now spells out the expected lines:
+  `[Craft partner name here]` / `[Location here]` / `[Names here]`.
+
 ## [1.13.0] - 2026-08-28
 
 ### Changed

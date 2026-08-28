@@ -175,7 +175,7 @@ export function SettingsDrawer() {
             fullWidth
             value={entriesText}
             onChange={(event) => setEntriesText(event.target.value)}
-            placeholder={'Man Skirt Brewing\nHackettstown\nSalty Dogs, Alice, Bob'}
+            placeholder={'[Craft partner name here]\n[Location here]\n[Names here]'}
             aria-label="Random pick list entries"
           />
         </Stack>

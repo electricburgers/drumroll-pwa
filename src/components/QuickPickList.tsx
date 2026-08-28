@@ -86,7 +86,7 @@ export function QuickPickList() {
           size="small"
           value={entriesText}
           onChange={(event) => setEntriesText(event.target.value)}
-          placeholder={'Man Skirt Brewing\nHackettstown\nSalty Dogs, Alice, Bob'}
+          placeholder={'[Craft partner name here]\n[Location here]\n[Names here]'}
           aria-label="Random pick list entries"
         />
         <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 0.5 }}>
