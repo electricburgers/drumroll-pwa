@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 This is a rebuild of the original drumroll app by **heystevegray** as a
 client-only static PWA (Vite + React + TypeScript + MUI + howler).
 
+## [1.12.0] - 2026-08-28
+
+### Changed
+
+- Pictographs are now drawn in named object colors (red drum, gold trophy,
+  festive party popper, warm wave) with a per-theme palette verified to WCAG
+  AA (3:1 non-text) against both backgrounds; pause and the eyes' outline keep
+  the audited text color.
+
 ## [1.11.0] - 2026-08-28
 
 ### Added

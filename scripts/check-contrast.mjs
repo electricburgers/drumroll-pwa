@@ -61,6 +61,22 @@ const palettes = {
   },
 }
 
+// Named object colours for the drawn pictographs (src/theme.ts PICTOGRAPH_PALETTE).
+// Decorative, but verified >= 3:1 against the page background (SC 1.4.11) so they
+// stay visible in both themes. Keep in sync with src/theme.ts.
+const pictographs = {
+  light: { red: '#BC3A1E', wood: '#7A5230', gold: '#8A6400', skin: '#96592E' },
+  dark: { red: '#FF8A66', wood: '#D7A56E', gold: '#F0B62E', skin: '#E6AB7C' },
+}
+
+for (const [modeName, colors] of Object.entries(pictographs)) {
+  const bg = backgrounds[modeName]
+  console.log(`\n-- pictographs/${modeName} --`)
+  for (const [name, hex] of Object.entries(colors)) {
+    check(`pictograph ${name} vs background (non-text)`, hex, bg.default, 3)
+  }
+}
+
 for (const [visionName, modes] of Object.entries(palettes)) {
   for (const [modeName, p] of Object.entries(modes)) {
     const bg = backgrounds[modeName]

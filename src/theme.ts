@@ -48,6 +48,50 @@ const BACKGROUNDS: Record<ResolvedColorMode, { default: string; paper: string }>
   dark: { default: '#000000', paper: '#050505' },
 }
 
+export interface PictographPalette {
+  /** Drum shell + party-popper cone. Audited >= 3:1 vs the page background. */
+  red: string
+  /** Drumsticks + party-popper streamer. Audited >= 3:1 vs the page background. */
+  wood: string
+  /** Trophy + confetti. Audited >= 3:1 vs the page background. */
+  gold: string
+  /** Waving hand. Audited >= 3:1 vs the page background. */
+  skin: string
+  /** Drum batter head — a decorative interior fill, sits inside the red rim. */
+  drumHead: string
+  /** Eye whites — a decorative interior fill, sits inside a currentColor outline. */
+  eyeSclera: string
+  /** Eye pupils — painted on the (light) sclera, so kept dark in both modes. */
+  eyePupil: string
+}
+
+// Named object colours for the drawn pictographs (Pictograph.tsx). Each theme
+// gets its own set: no single hex clears the 3:1 non-text threshold against
+// both the near-white light background and the black dark one, so the primary
+// colours (red / wood / gold / skin) are verified per mode in
+// scripts/check-contrast.mjs. The interior fills (drumHead, eyeSclera) are
+// decorative — enclosed by an outline — and are not part of that audit.
+export const PICTOGRAPH_PALETTE: Record<ResolvedColorMode, PictographPalette> = {
+  light: {
+    red: '#BC3A1E',
+    wood: '#7A5230',
+    gold: '#8A6400',
+    skin: '#96592E',
+    drumHead: '#E8CDAD',
+    eyeSclera: '#FFFFFF',
+    eyePupil: '#2E2118',
+  },
+  dark: {
+    red: '#FF8A66',
+    wood: '#D7A56E',
+    gold: '#F0B62E',
+    skin: '#E6AB7C',
+    drumHead: '#4A3A2A',
+    eyeSclera: '#ECECEC',
+    eyePupil: '#2E2118',
+  },
+}
+
 const MIN_TOUCH_TARGET = 44
 
 export function getTheme(mode: ResolvedColorMode, colorVision: ColorVision): Theme {
