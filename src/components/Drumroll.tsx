@@ -11,29 +11,49 @@ import LinearProgress from '@mui/material/LinearProgress'
 import Slider from '@mui/material/Slider'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useAppContext } from '../context/useAppContext'
 import { DURATION_MARKS, INFINITE_DURATION } from '../constants'
 import { useDrumroll } from '../hooks/useDrumroll'
 import { parseEntries } from '../lib/parseEntries'
-import { QuickPickList } from './QuickPickList'
+import { Pictograph } from './Pictograph'
+import { PICK_LIST_ANCHOR_ID, QuickPickList } from './QuickPickList'
 import { SpinWheel } from './SpinWheel'
 
 export function Drumroll() {
-  const { duration, setDuration, entriesText, spinWheelEnabled, setOpenSettings, defaultGridSpacing } = useAppContext()
+  const {
+    duration,
+    setDuration,
+    entriesText,
+    spinWheelEnabled,
+    setOpenSettings,
+    defaultGridSpacing,
+    setPickListOpen,
+  } = useAppContext()
   const {
     play,
     stop,
     stopFadeOut,
     playHorn,
     timer,
-    emoji,
+    face,
     flip,
     isRolling,
     pickedEntry,
     celebrationMessage,
     statusMessage,
   } = useDrumroll()
+
+  const editPickList = useCallback(() => {
+    setPickListOpen(true)
+    // Wait for the Collapse to mount/lay out its textarea before scrolling to
+    // it and moving focus there for editing.
+    window.setTimeout(() => {
+      const anchor = document.getElementById(PICK_LIST_ANCHOR_ID)
+      anchor?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      anchor?.querySelector('textarea')?.focus({ preventScroll: true })
+    }, 150)
+  }, [setPickListOpen])
 
   // The pick list's first two entries are reserved for the craft partner
   // name and location; the rest are the pool of names to draw from.
@@ -93,53 +113,63 @@ export function Drumroll() {
           <SpinWheel entries={pool} isRolling={isRolling} pickedEntry={pickedEntry} />
         ) : (
           <>
-            <Typography
-              component="div"
+            <Box
               aria-hidden="true"
-              sx={{
-                fontSize: 'clamp(3.5rem, 18vw, 5rem)',
-                lineHeight: 1,
-                transform: `scale(${isRolling && flip ? -1 : 1}, 1)`,
-              }}
+              sx={{ color: 'text.primary', lineHeight: 1 }}
             >
-              {emoji}
-            </Typography>
+              <Pictograph name={face} size="clamp(3.5rem, 18vw, 5rem)" flip={isRolling && flip} />
+            </Box>
 
-            <Typography
-              component="div"
-              aria-label="Drum"
-              sx={{ fontSize: '5rem', lineHeight: 1 }}
-            >
-              🥁
-            </Typography>
+            <Box sx={{ color: 'text.primary', lineHeight: 1 }}>
+              <Pictograph name="drum" size="5rem" label="Drum" />
+            </Box>
 
             {pool.length > 0 && (
               <Box
+                component="button"
+                type="button"
+                onClick={editPickList}
+                aria-label="Edit the pick list"
                 sx={{
                   width: '100%',
                   maxWidth: 320,
                   p: 1.5,
+                  font: 'inherit',
+                  color: 'inherit',
                   borderRadius: 2,
                   border: '2px solid',
                   borderColor: pickedEntry && !isRolling ? 'primary.main' : 'divider',
                   bgcolor: 'background.paper',
                   boxShadow: 1,
                   textAlign: 'center',
+                  cursor: 'pointer',
                   transition: 'all 0.3s ease',
+                  '&:hover': { borderColor: 'primary.main' },
                 }}
               >
                 <Typography
                   variant="caption"
                   color="text.secondary"
+                  component="span"
                   sx={{
                     textTransform: 'uppercase',
                     letterSpacing: 1,
                     fontWeight: 700,
-                    display: 'block',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: 0.5,
                     mb: 0.5,
                   }}
                 >
-                  {pickedEntry && !isRolling ? '🏆 Winner' : 'Drawing Pool'}
+                  {pickedEntry && !isRolling ? (
+                    <>
+                      <Pictograph name="trophy" size="1.1em" />
+                      Winner
+                    </>
+                  ) : (
+                    'Drawing Pool · tap to edit'
+                  )}
                 </Typography>
                 <Typography
                   variant="h6"

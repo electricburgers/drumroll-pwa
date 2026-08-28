@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 This is a rebuild of the original drumroll app by **heystevegray** as a
 client-only static PWA (Vite + React + TypeScript + MUI + howler).
 
+## [1.11.0] - 2026-08-28
+
+### Added
+
+- Icon style setting (Pictograph / Emoji, Pictograph by default). Pictograph
+  draws the drum, trophy, eyes, pause, party and wave glyphs as theme- and
+  color-vision-aware shapes instead of fixed-color platform emoji.
+- Tapping the drawing pool / rotating name now opens the pick list container
+  for editing.
+
+### Changed
+
+- PWA / apple-touch icon is now a pictograph drum on the brand red, matching
+  the in-app drum glyph.
+
 ## [1.10.0] - 2026-08-28
 
 ### Added

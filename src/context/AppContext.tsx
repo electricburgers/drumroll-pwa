@@ -8,16 +8,19 @@ import {
   DURATION_STORAGE_KEY,
   ENTRIES_STORAGE_KEY,
   FADE_OUT_STORAGE_KEY,
+  ICON_STYLE_STORAGE_KEY,
   INFINITE_DURATION,
   MAX_FADE_OUT_SECONDS,
   MIN_FADE_OUT_SECONDS,
   SPIN_WHEEL_STORAGE_KEY,
   type ColorModeSetting,
   type ColorVision,
+  type IconStyle,
 } from '../constants'
 import {
   readStoredColorMode,
   readStoredColorVision,
+  readStoredIconStyle,
   resolveColorMode,
 } from '../lib/themePreferences'
 import { AppContext, type AppContextValue } from './appContextInstance'
@@ -58,6 +61,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [isRolling, setIsRolling] = useState(false)
   const [colorMode, setColorModeState] = useState<ColorModeSetting>(readStoredColorMode)
   const [colorVision, setColorVisionState] = useState<ColorVision>(readStoredColorVision)
+  const [iconStyle, setIconStyleState] = useState<IconStyle>(readStoredIconStyle)
+  const [pickListOpen, setPickListOpen] = useState(true)
 
   const prefersDark = useMediaQuery('(prefers-color-scheme: dark)')
   const resolvedColorMode = resolveColorMode(colorMode, prefersDark)
@@ -110,6 +115,14 @@ export function AppProvider({ children }: { children: ReactNode }) {
     })
   }
 
+  const setIconStyle: AppContextValue['setIconStyle'] = (value) => {
+    setIconStyleState((prev) => {
+      const next = typeof value === 'function' ? (value as (prev: IconStyle) => IconStyle)(prev) : value
+      window.localStorage.setItem(ICON_STYLE_STORAGE_KEY, next)
+      return next
+    })
+  }
+
   return (
     <AppContext.Provider
       value={{
@@ -131,6 +144,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
         resolvedColorMode,
         colorVision,
         setColorVision,
+        iconStyle,
+        setIconStyle,
+        pickListOpen,
+        setPickListOpen,
       }}
     >
       {children}

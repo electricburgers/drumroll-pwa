@@ -49,3 +49,14 @@ export const COLOR_VISION_OPTIONS: { label: string; value: ColorVision }[] = [
 export const ENTRIES_STORAGE_KEY = 'drumroll-entries'
 
 export const SPIN_WHEEL_STORAGE_KEY = 'drumroll-spin-wheel-enabled'
+
+export type IconStyle = 'pictograph' | 'emoji'
+
+export const ICON_STYLE_STORAGE_KEY = 'drumroll-icon-style'
+
+export const DEFAULT_ICON_STYLE: IconStyle = 'pictograph'
+
+export const ICON_STYLE_OPTIONS: { label: string; value: IconStyle }[] = [
+  { label: 'Pictograph', value: 'pictograph' },
+  { label: 'Emoji', value: 'emoji' },
+]

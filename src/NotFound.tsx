@@ -2,6 +2,7 @@ import Box from '@mui/material/Box'
 import Link from '@mui/material/Link'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
+import { Pictograph } from './components/Pictograph'
 
 function NotFound() {
   return (
@@ -21,9 +22,15 @@ function NotFound() {
         <Typography variant="h1" sx={{ fontSize: { xs: '4rem', sm: '6rem' } }}>
           404
         </Typography>
-        <Typography variant="h5">Ooof you're off beat 🥁</Typography>
-        <Typography variant="body1" color="text.secondary">
-          👋 This is not the page you are looking for...
+        <Typography variant="h5" sx={{ display: 'inline-flex', alignItems: 'center', gap: 1 }}>
+          Ooof you're off beat <Pictograph name="drum" size="1.1em" />
+        </Typography>
+        <Typography
+          variant="body1"
+          color="text.secondary"
+          sx={{ display: 'inline-flex', alignItems: 'center', gap: 1 }}
+        >
+          <Pictograph name="wave" size="1.2em" /> This is not the page you are looking for...
         </Typography>
         <Link href={import.meta.env.BASE_URL} underline="hover">
           Go Back

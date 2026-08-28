@@ -1,5 +1,5 @@
 import { createContext } from 'react'
-import type { ColorModeSetting, ColorVision, ResolvedColorMode } from '../constants'
+import type { ColorModeSetting, ColorVision, IconStyle, ResolvedColorMode } from '../constants'
 
 export interface AppContextValue {
   duration: number
@@ -20,6 +20,10 @@ export interface AppContextValue {
   resolvedColorMode: ResolvedColorMode
   colorVision: ColorVision
   setColorVision: React.Dispatch<React.SetStateAction<ColorVision>>
+  iconStyle: IconStyle
+  setIconStyle: React.Dispatch<React.SetStateAction<IconStyle>>
+  pickListOpen: boolean
+  setPickListOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export const AppContext = createContext<AppContextValue | undefined>(undefined)

@@ -16,17 +16,21 @@ import { useAppContext } from '../context/useAppContext'
 
 const PANEL_ID = 'quick-pick-list-panel'
 
+/** id on the outer container, so other components can scroll it into view. */
+export const PICK_LIST_ANCHOR_ID = 'quick-pick-list'
+
 /**
  * A collapsible copy of Settings → Winner drawing → Random pick list, docked
  * under the drumroll buttons so the list can be pasted without opening
  * Settings. On mobile it becomes a fixed bottom dock; a spacer reserves its
- * height so nothing hides behind it. Expanded by default.
+ * height so nothing hides behind it. Expanded by default. Open state lives in
+ * the app context so tapping the drawing pool can open it for editing.
  */
 export function QuickPickList() {
-  const { entriesText, setEntriesText, defaultGridSpacing } = useAppContext()
+  const { entriesText, setEntriesText, defaultGridSpacing, pickListOpen, setPickListOpen } =
+    useAppContext()
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
-  const [open, setOpen] = useState(true)
 
   const dockRef = useRef<HTMLDivElement>(null)
   const [dockHeight, setDockHeight] = useState(0)
@@ -52,9 +56,10 @@ export function QuickPickList() {
         direction="row"
         alignItems="center"
         justifyContent="space-between"
-        onClick={() => setOpen((value) => !value)}
-        aria-expanded={open}
+        onClick={() => setPickListOpen((value) => !value)}
+        aria-expanded={pickListOpen}
         aria-controls={PANEL_ID}
+        aria-label={pickListOpen ? 'Hide pick list' : 'Show pick list'}
         sx={{
           width: '100%',
           font: 'inherit',
@@ -69,10 +74,10 @@ export function QuickPickList() {
           <FormatListBulletedIcon fontSize="small" color="action" />
           <Typography variant="subtitle2">Pick list</Typography>
         </Stack>
-        {open ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+        {pickListOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
       </Stack>
 
-      <Collapse in={open} id={PANEL_ID}>
+      <Collapse in={pickListOpen} id={PANEL_ID}>
         <TextField
           multiline
           minRows={3}
@@ -86,7 +91,7 @@ export function QuickPickList() {
         />
         <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 0.5 }}>
           First line is the craft partner, second is the location, the rest are names in the
-          draw. Same list as Settings → Winner drawing.
+          draw. Same list as the Winner drawing section in Settings.
         </Typography>
       </Collapse>
     </Box>
@@ -98,6 +103,7 @@ export function QuickPickList() {
         <Box aria-hidden sx={{ flexShrink: 0, width: '100%', height: dockHeight }} />
         <Paper
           ref={dockRef}
+          id={PICK_LIST_ANCHOR_ID}
           square
           elevation={8}
           sx={{
@@ -121,6 +127,7 @@ export function QuickPickList() {
 
   return (
     <Box
+      id={PICK_LIST_ANCHOR_ID}
       sx={{
         width: '100%',
         maxWidth: 420,

@@ -18,6 +18,7 @@ import {
   COLOR_MODE_OPTIONS,
   COLOR_VISION_OPTIONS,
   DURATION_MARKS,
+  ICON_STYLE_OPTIONS,
   FADE_OUT_STEP_SECONDS,
   INFINITE_DURATION,
   MAX_FADE_OUT_SECONDS,
@@ -47,6 +48,8 @@ export function SettingsDrawer() {
     resolvedColorMode,
     colorVision,
     setColorVision,
+    iconStyle,
+    setIconStyle,
   } = useAppContext()
 
   return (
@@ -294,6 +297,30 @@ export function SettingsDrawer() {
                 </ToggleButton>
               )
             })}
+          </ToggleButtonGroup>
+        </Stack>
+
+        <Stack spacing={1} sx={{ mt: defaultGridSpacing }}>
+          <Typography variant="subtitle1">Icons</Typography>
+          <Typography variant="body2" color="text.secondary">
+            Pictograph draws the drum, trophy and eyes as simple shapes that follow the theme
+            and color-vision palette. Emoji uses your device's built-in emoji instead.
+          </Typography>
+
+          <ToggleButtonGroup
+            exclusive
+            value={iconStyle}
+            onChange={(_event, value) => {
+              if (value !== null) setIconStyle(value)
+            }}
+            aria-label="Icon style"
+            sx={{ flexWrap: 'wrap', mt: 1 }}
+          >
+            {ICON_STYLE_OPTIONS.map((option) => (
+              <ToggleButton key={option.value} value={option.value}>
+                {option.label}
+              </ToggleButton>
+            ))}
           </ToggleButtonGroup>
         </Stack>
 

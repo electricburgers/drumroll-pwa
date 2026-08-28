@@ -175,7 +175,7 @@ export function useDrumroll() {
     hornSoundRef.current?.play()
   }, [])
 
-  const emoji = celebrating ? '🎉' : isRolling ? '👀' : '⏸️'
+  const face: 'tada' | 'eyes' | 'pause' = celebrating ? 'tada' : isRolling ? 'eyes' : 'pause'
 
   const [craftPartnerName, craftPartnerLocation] = parseEntries(entriesText)
   const celebrationMessage =
@@ -195,7 +195,7 @@ export function useDrumroll() {
     stopFadeOut,
     playHorn,
     timer,
-    emoji,
+    face,
     flip,
     isRolling,
     pickedEntry,
