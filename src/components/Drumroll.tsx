@@ -16,6 +16,7 @@ import { useAppContext } from '../context/useAppContext'
 import { DURATION_MARKS, INFINITE_DURATION } from '../constants'
 import { useDrumroll } from '../hooks/useDrumroll'
 import { parseEntries } from '../lib/parseEntries'
+import { QuickPickList } from './QuickPickList'
 import { SpinWheel } from './SpinWheel'
 
 export function Drumroll() {
@@ -265,6 +266,8 @@ export function Drumroll() {
             Horn
           </Button>
         </Stack>
+
+        <QuickPickList />
       </Stack>
     </Box>
   )

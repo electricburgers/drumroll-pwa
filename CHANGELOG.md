@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 This is a rebuild of the original drumroll app by **heystevegray** as a
 client-only static PWA (Vite + React + TypeScript + MUI + howler).
 
+## [1.10.0] - 2026-08-28
+
+### Added
+
+- Collapsible "Pick list" container docked under the drumroll buttons that
+  mirrors Settings → Winner drawing → Random pick list, so the list can be
+  pasted without opening Settings. Expanded by default; toggled with a
+  chevron; becomes a fixed bottom dock on mobile.
+
+### Fixed
+
+- Restored the build: a stray `</Link>` tag in the Settings drawer had broken
+  `tsc` since 1.7.0.
+
 ## [1.9.0] - 2026-08-25
 
 ### Added

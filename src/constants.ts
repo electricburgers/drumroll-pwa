@@ -1,7 +1,7 @@
 import { version as packageVersion } from '../package.json'
 
 export const APP_VERSION = packageVersion
-export const APP_DATE = '25 Aug 2026'
+export const APP_DATE = '28 Aug 2026'
 
 export const ORIGINAL_AUTHOR = 'heystevegray'
 export const ORIGINAL_AUTHOR_URL = 'https://github.com/heystevegray/drumroll'

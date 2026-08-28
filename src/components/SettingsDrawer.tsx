@@ -310,7 +310,6 @@ export function SettingsDrawer() {
           </Typography>
           <Typography variant="body2" color="text.secondary">
             Built with Anthropic's Claude AI
-            </Link>
           </Typography>
         </Stack>
         </Box>
