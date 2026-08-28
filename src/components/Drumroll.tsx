@@ -199,53 +199,6 @@ export function Drumroll() {
           </Typography>
         )}
 
-        {!isRolling ? (
-          <Box sx={{ width: '100%', maxWidth: 360, px: 2, my: 1 }}>
-            <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 0.5 }}>
-              <Typography variant="body2" color="text.secondary">
-                Duration
-              </Typography>
-              <Typography variant="body2" fontWeight="bold">
-                {duration === INFINITE_DURATION ? 'Infinite' : `${duration}s`}
-              </Typography>
-            </Stack>
-            <Slider
-              value={duration === INFINITE_DURATION ? 0 : duration}
-              onChange={(_event, value) => {
-                if (typeof value === 'number') {
-                  setDuration(value === 0 ? INFINITE_DURATION : value)
-                }
-              }}
-              min={0}
-              max={30}
-              step={1}
-              marks={DURATION_MARKS}
-              valueLabelDisplay="auto"
-              valueLabelFormat={(val) => (val === 0 ? 'Infinite' : `${val}s`)}
-              getAriaValueText={(val) => (val === 0 ? 'Infinite duration' : `${val} seconds`)}
-              aria-label="Drumroll duration"
-            />
-          </Box>
-        ) : (
-          duration !== INFINITE_DURATION && (
-            <LinearProgress
-              variant="determinate"
-              value={(timer / duration) * 100}
-              aria-hidden="true"
-              sx={{
-                width: '100%',
-                height: 8,
-                borderRadius: 4,
-                '& .MuiLinearProgress-bar': { transition: 'transform 1s linear' },
-              }}
-            />
-          )
-        )}
-
-        <Button variant="text" onClick={() => setOpenSettings(true)}>
-          Configure Settings
-        </Button>
-
         <Typography variant="caption" color="text.secondary">
           Note: Not hearing sound? Make sure your device isn't on Silent Mode.
         </Typography>
@@ -296,6 +249,53 @@ export function Drumroll() {
             Horn
           </Button>
         </Stack>
+
+        {!isRolling ? (
+          <Box sx={{ width: '100%', maxWidth: 360, px: 2, my: 1 }}>
+            <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 0.5 }}>
+              <Typography variant="body2" color="text.secondary">
+                Duration
+              </Typography>
+              <Typography variant="body2" fontWeight="bold">
+                {duration === INFINITE_DURATION ? 'Infinite' : `${duration}s`}
+              </Typography>
+            </Stack>
+            <Slider
+              value={duration === INFINITE_DURATION ? 0 : duration}
+              onChange={(_event, value) => {
+                if (typeof value === 'number') {
+                  setDuration(value === 0 ? INFINITE_DURATION : value)
+                }
+              }}
+              min={0}
+              max={30}
+              step={1}
+              marks={DURATION_MARKS}
+              valueLabelDisplay="auto"
+              valueLabelFormat={(val) => (val === 0 ? 'Infinite' : `${val}s`)}
+              getAriaValueText={(val) => (val === 0 ? 'Infinite duration' : `${val} seconds`)}
+              aria-label="Drumroll duration"
+            />
+          </Box>
+        ) : (
+          duration !== INFINITE_DURATION && (
+            <LinearProgress
+              variant="determinate"
+              value={(timer / duration) * 100}
+              aria-hidden="true"
+              sx={{
+                width: '100%',
+                height: 8,
+                borderRadius: 4,
+                '& .MuiLinearProgress-bar': { transition: 'transform 1s linear' },
+              }}
+            />
+          )
+        )}
+
+        <Button variant="text" onClick={() => setOpenSettings(true)}>
+          Configure Settings
+        </Button>
 
         <QuickPickList />
       </Stack>

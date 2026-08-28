@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 This is a rebuild of the original drumroll app by **heystevegray** as a
 client-only static PWA (Vite + React + TypeScript + MUI + howler).
 
+## [1.13.0] - 2026-08-28
+
+### Changed
+
+- Duration slider (and the roll progress bar) and the Configure Settings button
+  now sit below the Play / Stop / Fade Out / Horn buttons.
+
 ## [1.12.0] - 2026-08-28
 
 ### Changed
