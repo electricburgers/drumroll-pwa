@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 This is a rebuild of the original drumroll app by **heystevegray** as a
 client-only static PWA (Vite + React + TypeScript + MUI + howler).
 
+## [1.15.0] - 2026-10-06
+
+### Fixed
+
+- Installed iOS/iPadOS app no longer has a dark scrim / Liquid Glass blur over
+  the status bar and top app bar. Dropped `viewport-fit=cover` and switched
+  `apple-mobile-web-app-status-bar-style` to `default` (no longer toggled to
+  `black-translucent` in dark mode), so iOS paints the status bar solid in the
+  theme color. Removed the now-unneeded top safe-area padding. Delete and
+  re-add the Home Screen icon to pick up the change.
+
 ## [1.14.0] - 2026-08-28
 
 ### Changed

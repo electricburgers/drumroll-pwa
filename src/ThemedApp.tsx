@@ -10,10 +10,7 @@ export function ThemedApp({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     document.querySelector('#theme-color-meta')?.setAttribute('content', theme.palette.primary.main)
-    document
-      .querySelector('#apple-status-bar-meta')
-      ?.setAttribute('content', resolvedColorMode === 'dark' ? 'black-translucent' : 'default')
-  }, [theme, resolvedColorMode])
+  }, [theme])
 
   return (
     <ThemeProvider theme={theme}>

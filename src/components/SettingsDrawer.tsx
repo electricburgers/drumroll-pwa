@@ -76,7 +76,7 @@ export function SettingsDrawer() {
             flexShrink: 0,
             bgcolor: 'background.paper',
             px: defaultGridSpacing,
-            pt: 'calc(env(safe-area-inset-top) + 12px)',
+            pt: '12px',
             pb: defaultGridSpacing,
             pl: `calc(${defaultGridSpacing * 8}px + env(safe-area-inset-left))`,
             pr: `calc(${defaultGridSpacing * 8}px + env(safe-area-inset-right))`,

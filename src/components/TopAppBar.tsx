@@ -35,7 +35,7 @@ export function TopAppBar() {
   const { setOpenSettings, defaultGridSpacing, colorMode, setColorMode } = useAppContext()
 
   return (
-    <AppBar position="static" sx={{ pt: 'env(safe-area-inset-top)' }}>
+    <AppBar position="static">
       <Toolbar>
         <Grid container spacing={defaultGridSpacing} alignItems="center">
           <Grid item xs>

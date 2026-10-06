@@ -14,7 +14,6 @@ function NotFound() {
         justifyContent: 'center',
         textAlign: 'center',
         px: 2,
-        pt: 'env(safe-area-inset-top)',
         pb: 'env(safe-area-inset-bottom)',
       }}
     >

@@ -2,13 +2,22 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <!--
+      No viewport-fit=cover and status-bar-style "default", on purpose. With
+      viewport-fit=cover + black-translucent, an installed iOS/iPadOS web app is laid
+      out under the status bar and iOS draws its own scrim/blur over that strip (much
+      stronger since iOS 26 Liquid Glass), shading the top app bar. App CSS can't
+      remove it. With these settings iOS reserves the status-bar area and paints it
+      solid in theme-color. Don't put black-translucent back. These must stay static
+      in the served <head>: iOS reads them at install time and ignores JS changes.
+    -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta id="theme-color-meta" name="theme-color" content="#A1000A" />
     <meta name="description" content="When you need a drumroll on demand 🥁" />
 
     <!-- iOS / Safari installability -->
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta id="apple-status-bar-meta" name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="drumroll" />
     <!-- Chrome/Android installability (manifest covers this too; kept for older engines) -->
     <meta name="mobile-web-app-capable" content="yes" />
